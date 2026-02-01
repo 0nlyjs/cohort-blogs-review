@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MistJS | Tech Blog Index</title>
+    <style>
+      :root {
+        --bg-dark: #0a0b1e;
+        --primary-purple: #daafff;
+        --accent-cyan: #00f2ff;
+        --glass-bg: rgba(255, 255, 255, 0.05);
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --text-main: #e0e0e0;
+        --text-muted: #94a3b8;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: var(--bg-dark);
+        background-image:
+          radial-gradient(
+            circle at 10% 20%,
+            rgba(123, 44, 191, 0.15) 0%,
+            transparent 40%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(0, 242, 255, 0.1) 0%,
+            transparent 40%
+          );
+        color: var(--text-main);
+        min-height: 100vh;
+        padding: 2rem;
+        line-height: 1.6;
+      }
+
+      /* Scanline effect overlay */
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background:
+          linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
+          linear-gradient(
+            90deg,
+            rgba(255, 0, 0, 0.03),
+            rgba(0, 255, 0, 0.01),
+            rgba(0, 0, 255, 0.03)
+          );
+        background-size:
+          100% 3px,
+          3px 100%;
+        pointer-events: none;
+        z-index: 999;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 3rem;
+        position: relative;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        background: linear-gradient(90deg, #fff, var(--accent-cyan));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 0.5rem;
+        letter-spacing: -1px;
+      }
+
+      .subtitle {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      /* List Styles */
+      .blog-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .blog-card {
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: 12px;
+        padding: 1.25rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+        animation: fadeIn 0.5s ease-out forwards;
+        opacity: 0;
+      }
+
+      /* Staggered animation delays will be added via JS */
+
+      .blog-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: var(--primary-purple);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .blog-card:hover {
+        transform: translateX(5px);
+        background: rgba(255, 255, 255, 0.08);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        border-color: rgba(123, 44, 191, 0.5);
+      }
+
+      .blog-card:hover::before {
+        opacity: 1;
+      }
+
+      .blog-info {
+        flex: 1;
+        padding-right: 1.5rem;
+      }
+
+      .blog-title {
+        font-weight: 600;
+        font-size: 1.1rem;
+        color: #fff;
+        margin-bottom: 0.25rem;
+        display: block;
+        text-decoration: none;
+      }
+
+      .blog-url {
+        font-family: "Courier New", Courier, monospace;
+        font-size: 0.8rem;
+        color: var(--primary-purple);
+        word-break: break-all;
+      }
+
+      .visit-btn {
+        background: transparent;
+        border: 1px solid var(--accent-cyan);
+        color: var(--accent-cyan);
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+      }
+
+      .visit-btn:hover {
+        background: var(--accent-cyan);
+        color: var(--bg-dark);
+        box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        margin-top: 4rem;
+        color: var(--text-muted);
+        font-size: 0.8rem;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 600px) {
+        .blog-card {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 1rem;
+        }
+        .visit-btn {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Git, Networking, HTML/CSS Blogs</h1>
+        <div class="subtitle">Jnanachand Sahu</div>
+      </header>
+
+      <ul class="blog-list" id="blog-container"></ul>
+
+      <footer>
+        <a style="color: #daafff" href="https://mistjs.com/" target="_blank"
+          >mistjs</a
+        >
+      </footer>
+    </div>
+
+    <script>
+      // Data source
+      const blogs = [
+        {
+          title: "01. DNS Record Types Explained",
+          url: "https://mistjs.hashnode.dev/dns-record-types-explained",
+        },
+        {
+          title: "02. Getting Started with cURL",
+          url: "https://mistjs.hashnode.dev/getting-started-with-curl",
+        },
+        {
+          title: "03. Git for Beginners: Basics and Essential Commands",
+          url: "https://mistjs.hashnode.dev/git-for-beginners-basics-and-essential-commands",
+        },
+        {
+          title: "04. How DNS Resolution Works",
+          url: "https://mistjs.hashnode.dev/how-dns-resolution-works",
+        },
+        {
+          title: "05. Inside Git: How It Works and the Role of the .git Folder",
+          url: "https://mistjs.hashnode.dev/inside-git-how-it-works",
+        },
+        {
+          title: "06. Why Version Control Exists: The Pendrive Problem",
+          url: "https://mistjs.hashnode.dev/why-version-control-exists-the-pendrive-problem",
+        },
+        {
+          title: "07. Understanding Network Devices",
+          url: "https://mistjs.hashnode.dev/understanding-network-devices",
+        },
+        {
+          title: "08. TCP vs UDP: When to Use What, and How TCP Relates to HTTP",
+          url: "https://mistjs.hashnode.dev/tcp-vs-udp",
+        },
+        {
+          title: "09. TCP Working: 3-Way Handshake & Reliable Communication",
+          url: "https://mistjs.hashnode.dev/tcp-working-3-way-handshake-and-reliable-communication",
+        },
+        {
+          title:
+            "10. How a Browser Works: A Beginner-Friendly Guide to Browser Internals",
+          url: "https://mistjs.hashnode.dev/how-a-browser-works",
+        },
+        {
+          title: "11. Understanding HTML Tags and Elements",
+          url: "https://mistjs.hashnode.dev/understanding-html-tags-and-elements",
+        },
+        {
+          title: "12. CSS Selectors 101: Targeting Elements with Precision",
+          url: "https://mistjs.hashnode.dev/css-selectors",
+        },
+        {
+          title: "13. Emmet for HTML: A Beginner’s Guide to Writing Faster Markup",
+          url: "https://mistjs.hashnode.dev/emmet-for-html-beginners-guide",
+        },
+      ];
+
+      const container = document.getElementById("blog-container");
+
+      // Render loop
+      blogs.forEach((blog, index) => {
+        const li = document.createElement("li");
+        li.className = "blog-card";
+
+        // Add staggered animation delay
+        li.style.animationDelay = `${index * 0.1}s`;
+
+        li.innerHTML = `
+                <div class="blog-info">
+                    <a href="${blog.url}" target="_blank" class="blog-title">${blog.title}</a>
+                    <div class="blog-url">${new URL(blog.url).pathname}</div>
+                </div>
+                <a href="${blog.url}" target="_blank" class="visit-btn">READ BLOG &rarr;</a>
+            `;
+        container.appendChild(li);
+      });
+    </script>
+  </body>
+</html>
